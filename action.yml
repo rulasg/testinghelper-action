@@ -1,0 +1,76 @@
+name: 'Run TestingHelper'
+author: 'rulasg'
+description: 'Run tests for a PowerShell Module using TestingHelper'
+branding:
+  icon: "check"
+  color: "orange"
+inputs:
+  Version:
+    description: 'Specifies which version of TestingHelper to use.'
+    required: false
+  AllowPreReleaseVersions:
+    description: 'Allow the use of prerelease version of TestingHelper'
+    default: 'true'
+    required: false
+#     AllowedSkippedTests:
+#       description: 'Allow to use PreRelease versions onf TestingHelper module'
+#       required: false
+#     AllowedSkippedTests:
+#       description: 'Allow tests to be skipped without failing'
+#       required: false
+#     AllowedNotImplementedTests:
+#       description: 'Allow tests to be skipped without failing'
+#       required: false
+runs:
+  using: "composite"
+  steps:
+    - name: Import TestingHelper
+      shell: pwsh
+      run: 
+        $AllowPrerelease = ('${{ inputs.customRulePath }}' -eq 'true'
+
+        function Import-TestingHelper{
+          [CmdletBinding()]
+          param (
+              [Parameter()][string]$Version,
+              [Parameter()][switch]$AllowPrerelease,
+              [Parameter()][switch]$PassThru
+          )
+          
+          if ($Version) {
+              $V = $Version.Split('-')
+              $semVer = $V[0]
+              $AllowPrerelease = ($AllowPrerelease -or ($null -ne $V[1]))
+          }
+          
+          $module = Import-Module TestingHelper -PassThru -ErrorAction SilentlyContinue -RequiredVersion:$semVer
+      
+          if ($null -eq $module) {
+              $installed = Install-Module -Name TestingHelper -Force -AllowPrerelease:$AllowPrerelease -passThru -RequiredVersion:$Version
+              $module = Import-Module -Name $installed.Name -RequiredVersion ($installed.Version.Split('-')[0]) -Force -PassThru
+          }
+      
+          if ($PassThru) {
+              $module
+          }
+        }
+
+        Import-TestingHelper -AllowPrerelease:$AllowPrerelease -PassThru
+
+    - name: Run tests with TestingHelper
+      shell: pwsh
+      run: |
+        # Execute tests and safe result
+        $result = ./test.ps1 -ShowTestErrors
+
+        # Display results
+        $result
+
+        # Allow Not Implemented and Skipped tests to pass
+        $passed = $result.Tests -eq $result.Pass + $result.NotImplemented + $result.Skipped
+        # $passed = $result.Tests -eq $result.Pass
+
+        if($passed)
+        { "All test passed" | Write-Verbose -verbose ; exit 0 } 
+        else 
+        { "Not all tests passed" | Write-Verbose -verbose ; exit 1 }
