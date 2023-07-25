@@ -28,7 +28,8 @@ runs:
       shell: pwsh
       run: |
 
-        dir
+        dir | ft name
+
 
         $AllowPrerelease = ('${{ inputs.AllowPreReleaseVersions }}' -eq 'true')
 
@@ -62,7 +63,7 @@ runs:
 
 
         # Execute tests and safe result
-        $result = Invoke-TestingHelper -ShowTestErrors
+        $result = Invoke-TestingHelper -Path '.' -ShowTestErrors
 
         # Display results
         $result
