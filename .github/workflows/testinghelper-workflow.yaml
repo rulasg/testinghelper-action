@@ -32,7 +32,7 @@ jobs:
       - name: script for tracing
         shell: pwsh
         run: | 
-          dir | fn name
+          dir | ft name
 
       # Run test with TestingHelper using local branch version
       - name: Run TestingHelper
