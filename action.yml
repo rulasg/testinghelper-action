@@ -27,6 +27,9 @@ runs:
     - name: run TestingHelper
       shell: pwsh
       run: |
+
+        dir
+
         $AllowPrerelease = ('${{ inputs.AllowPreReleaseVersions }}' -eq 'true')
 
         function Import-TestingHelper{
