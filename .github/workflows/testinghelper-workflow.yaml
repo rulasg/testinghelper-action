@@ -29,6 +29,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: script for tracing
+        shell: pwsh
+        run: | 
+          dir | fn name
+
       # Run test with TestingHelper using local branch version
       - name: Run TestingHelper
         # uses: rulasg/testinghelper-action@v1
