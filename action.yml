@@ -2,7 +2,7 @@ name: 'Run TestingHelper'
 author: 'rulasg'
 description: 'Run tests for a PowerShell Module using TestingHelper'
 branding:
-  icon: "check"
+  icon: "check-circle"
   color: "orange"
 inputs:
   Version:
@@ -27,7 +27,7 @@ runs:
     - name: Import TestingHelper
       shell: pwsh
       run: 
-        $AllowPrerelease = ('${{ inputs.customRulePath }}' -eq 'true'
+        $AllowPrerelease = ('${{ inputs.customRulePath }}' -eq 'true')
 
         function Import-TestingHelper{
           [CmdletBinding()]
