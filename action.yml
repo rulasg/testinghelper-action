@@ -26,8 +26,8 @@ runs:
   steps:
     - name: Import TestingHelper
       shell: pwsh
-      run: 
-        $AllowPrerelease = ('${{ inputs.customRulePath }}' -eq 'true')
+      run: |
+        $AllowPrerelease = ('${{ inputs.AllowPreReleaseVersions }}' -eq 'true')
 
         function Import-TestingHelper{
           [CmdletBinding()]
@@ -61,7 +61,7 @@ runs:
       shell: pwsh
       run: |
         # Execute tests and safe result
-        $result = ./test.ps1 -ShowTestErrors
+        $result = Invoke-TestingHelper -ShowTestErrors
 
         # Display results
         $result
