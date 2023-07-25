@@ -56,8 +56,7 @@ runs:
           }
         }
 
-        Import-TestingHelper -AllowPrerelease:$AllowPrerelease -PassThru
-
+        Import-TestingHelper -AllowPrerelease:$AllowPrerelease
 
         # Execute tests and safe result
         $result = Invoke-TestingHelper -Path '.' -ShowTestErrors
