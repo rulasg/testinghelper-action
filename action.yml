@@ -27,6 +27,7 @@ runs:
     - name: run TestingHelper
       shell: pwsh
       run: |
+
         $AllowPrerelease = ('${{ inputs.AllowPreReleaseVersions }}' -eq 'true')
 
         function Import-TestingHelper{
@@ -55,11 +56,10 @@ runs:
           }
         }
 
-        Import-TestingHelper -AllowPrerelease:$AllowPrerelease -PassThru
-
+        Import-TestingHelper -AllowPrerelease:$AllowPrerelease
 
         # Execute tests and safe result
-        $result = Invoke-TestingHelper -ShowTestErrors
+        $result = Invoke-TestingHelper -Path '.' -ShowTestErrors
 
         # Display results
         $result
