@@ -1,14 +1,16 @@
-# testinghelper-action
+# TestingHelper GitHub Action and Reusable Workflow
 
-GitHub Action to test PowerShell modules using TestingHelper from GitHub.
+Testing is key for a healthy and effitient development process.
 
-The following two samples calling the action and the reusable workflow are equivalent.
+[TestingHelper](https://github.com/rulasg/testingHelper#readme) will help you on different faces of the developmnet lifecycle of a powershell module including testing.
 
+This Action and Reusable Workflow are wrappers around TestingHelper testing functionality so that you can very easily test your powershell module and add it to the development flow as a PullRequest check.
+
+The following two samples are equivalent. The first one will call the action as a step and the second one will run calling the reusable workflow.
 
 ## Calling the action
 
 This workflow will run the action as a step.
-
 
 ```yaml
 name: Test with TestingHelper-Action
@@ -65,8 +67,7 @@ permissions:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
+  # This workflow contains a single job that will call a reusable workflow
   call-reusable-testinghelper-worfklow:
-    # The type of runner that the job will run on
     uses: rulasg/testinghelper-action/.github/workflows/testinghelper-workflow.yaml@v1
 ```
