@@ -35,6 +35,4 @@ jobs:
           dir | ft name
 
       # Run test with TestingHelper using local branch version
-      - name: Run TestingHelper
-        # uses: rulasg/testinghelper-action@v1
-        uses: ./ # Uses the action in the root directory
+      - uses: rulasg/testinghelper-action@v1
