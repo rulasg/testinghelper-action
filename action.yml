@@ -24,7 +24,7 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: Import TestingHelper
+    - name: run TestingHelper
       shell: pwsh
       run: |
         $AllowPrerelease = ('${{ inputs.AllowPreReleaseVersions }}' -eq 'true')
@@ -57,9 +57,7 @@ runs:
 
         Import-TestingHelper -AllowPrerelease:$AllowPrerelease -PassThru
 
-    - name: Run tests with TestingHelper
-      shell: pwsh
-      run: |
+
         # Execute tests and safe result
         $result = Invoke-TestingHelper -ShowTestErrors
 
