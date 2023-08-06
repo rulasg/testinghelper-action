@@ -1,5 +1,7 @@
 # TestingHelper GitHub Action and Reusable Workflow
 
+[![Test testinghelper-action](https://github.com/rulasg/testinghelper-action/actions/workflows/test-action.yml/badge.svg)](https://github.com/rulasg/testinghelper-action/actions/workflows/test-action.yml)
+
 Testing is key for a healthy and effitient development process.
 
 [TestingHelper](https://github.com/rulasg/testingHelper#readme) will help you on different faces of the developmnet lifecycle of a powershell module including testing.
