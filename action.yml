@@ -5,13 +5,10 @@ branding:
   icon: "check-circle"
   color: "orange"
 inputs:
-  Version:
-    description: 'Specifies which version of TestingHelper to use.'
+  Path:
+    description: 'Path to the PowerShell Module to test'
     required: false
-  AllowPreReleaseVersions:
-    description: 'Allow the use of prerelease version of TestingHelper'
-    default: 'true'
-    required: false
+    default: '.'
 #     AllowedSkippedTests:
 #       description: 'Allow to use PreRelease versions onf TestingHelper module'
 #       required: false
@@ -26,13 +23,15 @@ runs:
   steps:
     - name: Run TestingHelper
       shell: pwsh
+      env:
+        Path: ${{ inputs.Path }}
       run: |
 
         # Import TestingHelper
         Import-Module TestingHelper -Force
 
         # Execute tests and safe result
-        $result = Invoke-TestingHelper -Path '.' -ShowTestErrors
+        $result = Invoke-TestingHelper -Path $env:Path -ShowTestErrors
 
         # Display results
         $result

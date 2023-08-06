@@ -32,6 +32,9 @@ jobs:
         
           # Set location to module path
           set-location -path Module4Test
+          Get-Location
 
       # Run test with TestingHelper to test local module
-      - uses: rulasg/testinghelper-action@v1
+      - uses: ./
+        with:
+          Path: Module4Test
