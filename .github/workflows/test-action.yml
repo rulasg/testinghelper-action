@@ -24,6 +24,9 @@ jobs:
       - name: Arrange test
         shell: pwsh
         run: |
+          # Import TestingHelper module
+          Import-Module -Name TestingHelper
+
           # Create module to test
           New-ModuleV3 -Name Module4Test -AddTesting
         
