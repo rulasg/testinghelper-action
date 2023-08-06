@@ -5,13 +5,10 @@ branding:
   icon: "check-circle"
   color: "orange"
 inputs:
-  Version:
-    description: 'Specifies which version of TestingHelper to use.'
+  Path:
+    description: 'Path to the PowerShell Module to test'
     required: false
-  AllowPreReleaseVersions:
-    description: 'Allow the use of prerelease version of TestingHelper'
-    default: 'true'
-    required: false
+    default: '.'
 #     AllowedSkippedTests:
 #       description: 'Allow to use PreRelease versions onf TestingHelper module'
 #       required: false
@@ -24,42 +21,17 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: run TestingHelper
+    - name: Run TestingHelper
       shell: pwsh
+      env:
+        Path: ${{ inputs.Path }}
       run: |
 
-        $AllowPrerelease = ('${{ inputs.AllowPreReleaseVersions }}' -eq 'true')
-
-        function Import-TestingHelper{
-          [CmdletBinding()]
-          param (
-              [Parameter()][string]$Version,
-              [Parameter()][switch]$AllowPrerelease,
-              [Parameter()][switch]$PassThru
-          )
-          
-          if ($Version) {
-              $V = $Version.Split('-')
-              $semVer = $V[0]
-              $AllowPrerelease = ($AllowPrerelease -or ($null -ne $V[1]))
-          }
-          
-          $module = Import-Module TestingHelper -PassThru -ErrorAction SilentlyContinue -RequiredVersion:$semVer
-      
-          if ($null -eq $module) {
-              $installed = Install-Module -Name TestingHelper -Force -AllowPrerelease:$AllowPrerelease -passThru -RequiredVersion:$Version
-              $module = Import-Module -Name $installed.Name -RequiredVersion ($installed.Version.Split('-')[0]) -Force -PassThru
-          }
-      
-          if ($PassThru) {
-              $module
-          }
-        }
-
-        Import-TestingHelper -AllowPrerelease:$AllowPrerelease
+        # Import TestingHelper
+        Import-Module TestingHelper -Force
 
         # Execute tests and safe result
-        $result = Invoke-TestingHelper -Path '.' -ShowTestErrors
+        $result = Invoke-TestingHelper -Path $env:Path -ShowTestErrors
 
         # Display results
         $result

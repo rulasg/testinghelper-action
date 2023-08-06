@@ -1,0 +1,40 @@
+name: Test testinghelper-action
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout the repository to the GitHub Actions runner
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up TestingHelper
+        uses: rulasg/testinghelper-setup-action@v1
+
+      - name: Arrange test
+        shell: pwsh
+        run: |
+          # Import TestingHelper module
+          Import-Module -Name TestingHelper
+
+          # Create module to test
+          New-ModuleV3 -Name Module4Test -AddTesting
+        
+          # Set location to module path
+          set-location -path Module4Test
+          Get-Location
+
+      # Run test with TestingHelper to test local module
+      - uses: ./
+        with:
+          Path: Module4Test
