@@ -31,5 +31,5 @@ jobs:
 
       # Run test with TestingHelper using local branch version
       - name: Run TestingHelper
-        # uses: rulasg/testinghelper-action@v1
+        # uses: rulasg/testinghelper-action
         uses: ./
