@@ -47,7 +47,7 @@ jobs:
 
         # Use setup TestingHelper version to run tests
       - name: Run tests
-        uses: rulasg/testinghelper-action@v1
+        uses: rulasg/testinghelper-action@v2
 ```
 
 ## Calling the reusuable workflow
@@ -68,5 +68,5 @@ permissions:
 jobs:
   # This workflow contains a single job that will call a reusable workflow
   call-reusable-testinghelper-worfklow:
-    uses: rulasg/testinghelper-action/.github/workflows/testinghelper-workflow.yaml@v1
+    uses: rulasg/testinghelper-action/.github/workflows/testinghelper-workflow.yaml@main
 ```
